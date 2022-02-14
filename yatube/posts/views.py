@@ -34,15 +34,14 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
-    user = get_object_or_404(User, username=username)
-    post_list = user.posts.all()
-    paginator = Paginator(post_list, POSTS_COUNT)
+    author = get_object_or_404(User, username=username)
+    posts = author.posts.all()
+    paginator = Paginator(posts, POSTS_COUNT)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'user': user,
-        
+        'author': author,
         'page_obj': page_obj,
     }
     return render(request, 'posts/profile.html', context)
@@ -82,7 +81,7 @@ def post_edit(request, post_id):
             return redirect('posts:post_detail', post_id=post.pk)
     form = PostForm()
     context = {
-        'is_edit' : is_edit,
+        'is_edit': is_edit,
         'form': form,
         'post': post,
     }

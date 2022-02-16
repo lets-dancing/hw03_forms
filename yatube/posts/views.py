@@ -1,8 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Group, Post, User
-
 from .forms import PostForm
 
 POSTS_COUNT = 10
@@ -48,14 +48,13 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    pk = Post.objects.select_related('pk')
     context = {
         'post': post,
-        'pk': pk,
     }
     return render(request, 'posts/post_detail.html', context)
 
 
+@login_required
 def post_create(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -68,16 +67,14 @@ def post_create(request):
     return render(request, 'posts/create_post.html', {'form': form})
 
 
+@login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     is_edit = 'is_edit'
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('posts:post_detail', post_id=post.pk)
+    form = request.POST or None
+    if form.is_valid():
+        form.save(commit=False)
+        return redirect(post)
     form = PostForm()
     context = {
         'is_edit': is_edit,

@@ -71,10 +71,12 @@ def post_create(request):
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     is_edit = 'is_edit'
-    form = request.POST or None
-    if form.is_valid():
-        form.save(commit=False)
-        return redirect(post)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('posts:post_detail', post_id=post.pk)
+            # с get_absolute_url() не победил
     form = PostForm()
     context = {
         'is_edit': is_edit,

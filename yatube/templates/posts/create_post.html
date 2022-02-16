@@ -18,6 +18,7 @@
           {% endif %}             
         </div>
         <div class="card-body">
+          <!-- Не понимаю, как здесь можно добавить форму? Слишком много переменных -->
           <form method="post" action={% if is_edit %}"{% url 'posts:post_edit' post_id=post.pk %}"{% else %}"{% url 'posts:post_create' %}"{% endif %}>  
             <input type="hidden" name="csrfmiddlewaretoken" value="">
             {% csrf_token %}    

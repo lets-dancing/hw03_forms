@@ -36,7 +36,7 @@ class Post(models.Model):
         return self.text
 
     def get_absolute_url(self):
-        return "posts:post_detail" % self.pk
+        return 'post', self.pk
 
     class Meta:
         ordering = tuple(['-pub_date'])

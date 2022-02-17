@@ -1,6 +1,6 @@
-from audioop import reverse
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -16,8 +16,8 @@ class Group(models.Model):
 
 class Post(models.Model):
     text = models.TextField(
-        verbose_name='Текст',
-        help_text='Поле для ввода текста'
+        verbose_name='Текст поста',
+        help_text='Текстовое поле'
     )
     pub_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
@@ -32,14 +32,14 @@ class Post(models.Model):
         null=True,
         related_name='posts',
         verbose_name='Группа',
-        help_text='Поле для ввода текста'
+        help_text='Группа, к которой будет относиться пост'
     )
 
     def __str__(self):
         return self.text
 
     def get_absolute_url(self):
-        return reverse('posts:post_detail', self.pk)
+        return reverse('posts:post_detail', kwargs={'post_id':self.pk})
 
     class Meta:
         ordering = ('-pub_date',)

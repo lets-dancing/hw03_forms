@@ -70,14 +70,12 @@ def post_create(request):
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    is_edit = 'is_edit'
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('posts:post_detail', post_id=post.pk)
-            # с get_absolute_url() не победил
-    form = PostForm()
+    is_edit = True
+    form = PostForm(request.POST, instance=post)
+    if form.is_valid():
+        form.save()
+        return redirect(post)
+    form = PostForm(instance=post)
     context = {
         'is_edit': is_edit,
         'form': form,

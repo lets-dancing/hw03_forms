@@ -1,3 +1,4 @@
+from audioop import reverse
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -30,13 +31,15 @@ class Post(models.Model):
         blank=True,
         null=True,
         related_name='posts',
+        verbose_name='Группа',
+        help_text='Поле для ввода текста'
     )
 
     def __str__(self):
         return self.text
 
     def get_absolute_url(self):
-        return 'post', self.pk
+        return reverse('posts:post_detail', self.pk)
 
     class Meta:
-        ordering = tuple(['-pub_date'])
+        ordering = ('-pub_date',)

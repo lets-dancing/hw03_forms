@@ -1,4 +1,3 @@
-import re
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -76,13 +75,13 @@ def post_edit(request, post_id):
     if form.is_valid():
         form.save()
         return redirect(post)
-    if post.author==request.user:
+    if post.author == request.user:
         form = PostForm(instance=post)
         context = {
             'is_edit': is_edit,
             'form': form,
             'post': post,
-            }
-        return render(request, 'posts/create_post.html', context)   
+        }
+        return render(request, 'posts/create_post.html', context)
     else:
         return redirect(post)

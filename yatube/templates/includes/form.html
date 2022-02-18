@@ -21,7 +21,11 @@
           {% endfor %}
         {% endif %}
         {% for field in form %}
-        <form method="post" action="">
+        <form method="post" 
+          {% if action_url %} 
+            action="{% url action_url %}" 
+          {% endif %} 
+        >
           {% csrf_token %}
           <div class="form-group row my-3 p-3" {% if field.field.required %} aria-required="true"{% else %}aria-required="false"{% endif %}>
             <label for="{{ field.id_for_label }}">

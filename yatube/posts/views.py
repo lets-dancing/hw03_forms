@@ -73,7 +73,7 @@ def post_edit(request, post_id):
     is_edit = True
     form = PostForm(request.POST, instance=post)
     if form.is_valid():
-        form.save()    
+        form.save()
         return redirect(post)
     if request.user != post.author:
         return redirect(post)
@@ -82,5 +82,5 @@ def post_edit(request, post_id):
         'is_edit': is_edit,
         'form': form,
         'post': post,
-        }
+    }
     return render(request, 'posts/create_post.html', context)

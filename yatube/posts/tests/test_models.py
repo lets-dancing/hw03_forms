@@ -21,7 +21,6 @@ class PostModelTest(TestCase):
             text='Тестовая пост',
         )
 
-
     def test_verbose_name(self):
         """verbose_name видна на страницах с пользовательскими формами."""
         post = PostModelTest.post
@@ -45,7 +44,6 @@ class PostModelTest(TestCase):
             with self.subTest(value=value):
                 self.assertEqual(
                     post._meta.get_field(value).help_text, expected)
-
 
     def test_models_have_correct_object_names(self):
         """Проверяем, что у моделей корректно работает __str__."""
